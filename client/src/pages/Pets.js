@@ -1,27 +1,16 @@
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import React from "react";
 import PetsList from "../components/PetsList";
 import PetModal from "../components/PetModal";
 import Loader from "../components/Loader";
 
-import { GET_PETS, CREATE_PET } from "./gqlObjects";
-
 import { useModal, modalActionTypes } from "./modal";
+import { useMutationCreatePet, useQueryGetPets } from "./gqlOperations";
 
 export default function Pets() {
   const [modal, dispatchModal] = useModal();
-  const pets = useQuery(GET_PETS);
+  const pets = useQueryGetPets();
 
-  const [createPet, newPet] = useMutation(CREATE_PET, {
-    update(cache, { data: { addPet } }) {
-      const { pets } = cache.readQuery({ query: GET_PETS });
-
-      console.log(pets);
-      cache.writeQuery({
-        query: GET_PETS,
-        data: { pets: [addPet, ...pets] },
-      });
-    },
-  });
+  const [createPet, newPet] = useMutationCreatePet();
 
   if (pets.loading) {
     return <Loader />;
@@ -31,14 +20,17 @@ export default function Pets() {
     return <div>Error!!!</div>;
   }
 
+  console.log(modal);
   if (modal.mode !== "CLOSED") {
     return <PetModal />;
   }
 
   const onClickHandler = () => {
+    console.log("onClickHandler");
     dispatchModal({
       type: modalActionTypes.SET_NEW_MODE,
       onSubmit: (input) => {
+        console.log(`now createPet`, input);
         createPet({
           variables: { newPet: input },
           optimisticResponse: {

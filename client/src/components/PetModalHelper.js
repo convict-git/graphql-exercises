@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import { useModal, modalActionTypes } from "../pages/modal";
 
@@ -23,6 +23,7 @@ export default function PetModalHelper() {
 
   const submit = (e) => {
     e.preventDefault();
+    console.log(`submitting, id: ${id}, name: ${name}, type: ${type}`);
     onSubmit({ id, name, type });
   };
 

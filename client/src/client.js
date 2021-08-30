@@ -12,7 +12,7 @@ import { ApolloLink } from "apollo-link";
 // const link = new HttpLink({ uri: "https://rickandmortyapi.com/graphql" });
 // const link = new HttpLink({ uri: "http://localhost:4000/" });
 
-const delay = setContext((request) => sleep(2000));
+const delay = setContext((request) => sleep(500));
 const httpLink = new HttpLink({ uri: "http://localhost:4000/" });
 const link = ApolloLink.from([delay, httpLink]); // composition of Apollo links
 

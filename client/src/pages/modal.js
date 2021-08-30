@@ -42,10 +42,10 @@ const modalReducer = (state, action) => {
   }
 };
 
-const ModalProvider = () => {
-  [state, dispatch] = React.useReducer(modalReducer, initialModalValue);
-  const value = React.memo(() => [state, dispatch], [state]);
-  return <ModalContext.Provider value={value} />;
+const ModalProvider = (props) => {
+  const [state, dispatch] = React.useReducer(modalReducer, initialModalValue);
+  const value = [state, dispatch];
+  return <ModalContext.Provider value={value} {...props} />;
 };
 
 const useModal = () => {

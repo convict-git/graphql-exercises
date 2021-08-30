@@ -1,17 +1,20 @@
-import { Switch, Route } from 'react-router-dom'
-import React, {Fragment} from 'react'
-import Header from './Header'
-import Pets from '../pages/Pets'
+import { Switch, Route } from "react-router-dom";
+import React, { Fragment } from "react";
+import Header from "./Header";
+import Pets from "../pages/Pets";
+import { ModalProvider } from "../pages/modal";
 
 const App = () => (
   <Fragment>
     <Header />
-    <div>
-      <Switch>
-        <Route exact path="/" component={Pets} />
-      </Switch>
-    </div>
+    <ModalProvider>
+      <div>
+        <Switch>
+          <Route exact path="/" component={Pets} />
+        </Switch>
+      </div>
+    </ModalProvider>
   </Fragment>
-)
+);
 
-export default App
+export default App;
