@@ -51,7 +51,7 @@ const typeDefs = gql`
   type Mutation {
     addPet(input: NewPetInput!): Pet!
     editPet(input: EditPetInput!): Pet!
-    deletePet(input: DeletePetInput!): Boolean!
+    deletePet(input: DeletePetInput!): Pet!
   }
 `;
 

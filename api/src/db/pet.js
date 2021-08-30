@@ -36,13 +36,9 @@ const createPetModel = (db) => {
 
     delete(pet) {
       const { id } = pet;
-      try {
-        db.get("pet").remove({ id }).write();
-        return true;
-      } catch (e) {
-        console.log(`Unable to delete pet: ${e}`);
-        return false;
-      }
+      const existingPet = db.get("pet").find({ id }).value();
+      db.get("pet").remove({ id }).write();
+      return existingPet;
     },
   };
 };

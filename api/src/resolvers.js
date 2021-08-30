@@ -20,7 +20,8 @@ module.exports = {
       return pet;
     },
     deletePet(_, { input }, { models, user }) {
-      return models.Pet.delete({ ...input, user: user.id });
+      const pet = models.Pet.delete({ ...input, user: user.id });
+      return pet;
     },
   },
   Pet: {
