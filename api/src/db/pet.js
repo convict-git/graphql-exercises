@@ -1,30 +1,50 @@
-const nanoid = require('nanoid')
+const nanoid = require("nanoid");
 
-const createPetModel = db => {
+const createPetModel = (db) => {
   return {
     findMany(filter) {
-      return db.get('pet')
+      return db
+        .get("pet")
         .filter(filter)
-        .orderBy(['createdAt'], ['desc'])
-        .value()
+        .orderBy(["createdAt"], ["desc"])
+        .value();
     },
 
     findOne(filter) {
-      return db.get('pet')
-        .find(filter)
-        .value()
+      return db.get("pet").find(filter).value();
     },
 
     create(pet) {
-      const newPet = {id: nanoid(), createdAt: Date.now(), ...pet}
-      
-      db.get('pet')
-        .push(newPet)
-        .write()
+      const newPet = { id: nanoid(), createdAt: Date.now(), ...pet };
 
-      return newPet
-    }
-  }
-}
+      db.get("pet").push(newPet).write();
 
-module.exports = createPetModel
+      return newPet;
+    },
+
+    edit(pet) {
+      const { id } = pet;
+      const existingPet = db.get("pet").find({ id }).value();
+
+      db.get("pet")
+        .find({ id })
+        .assign({ ...existingPet, ...pet })
+        .write();
+
+      return db.get("pet").find({ id }).value();
+    },
+
+    delete(pet) {
+      const { id } = pet;
+      try {
+        db.get("pet").remove({ id }).write();
+        return true;
+      } catch (e) {
+        console.log(`Unable to delete pet: ${e}`);
+        return false;
+      }
+    },
+  };
+};
+
+module.exports = createPetModel;
