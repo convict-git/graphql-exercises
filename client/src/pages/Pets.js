@@ -3,10 +3,13 @@ import PetsList from "../components/PetsList";
 import PetModal from "../components/PetModal";
 import Loader from "../components/Loader";
 
-import { useModal, modalActionTypes } from "./modal";
-import { useMutationCreatePet, useQueryGetPets } from "./gqlOperations";
+import { useModal, modalActionTypes } from "../context/modal";
+import { useMutationCreatePet, useQueryGetPets } from "../gql/gqlOperations";
+import { GET_PETS } from "../gql/gqlObjects";
+import { useApolloClient } from "@apollo/react-hooks";
 
 export default function Pets() {
+  const client = useApolloClient();
   const [modal, dispatchModal] = useModal();
   const pets = useQueryGetPets();
 
@@ -20,20 +23,18 @@ export default function Pets() {
     return <div>Error!!!</div>;
   }
 
-  console.log(modal);
   if (modal.mode !== "CLOSED") {
     return <PetModal />;
   }
 
   const onClickHandler = () => {
-    console.log("onClickHandler");
     dispatchModal({
       type: modalActionTypes.SET_NEW_MODE,
       onSubmit: (input) => {
-        console.log(`now createPet`, input);
         createPet({
-          variables: { newPet: input },
+          variables: { inp: { name: input.name, type: input.type } },
           optimisticResponse: {
+            __typename: "Mutation",
             addPet: {
               id: toString(Math.floor(Math.random() * 100000)),
               name: input.name,
@@ -43,6 +44,7 @@ export default function Pets() {
             },
           },
         });
+        dispatchModal({ type: modalActionTypes.CLOSE_MODAL });
       },
     });
   };
@@ -55,8 +57,16 @@ export default function Pets() {
             <h1>Pets</h1>
           </div>
           <div className="col-xs-2">
-            <button onClick={onClickHandler}>new pet</button>
+            <button onClick={onClickHandler}>new pet</button>{" "}
           </div>
+          <button
+            onClick={() => {
+              console.log(client);
+              window.setTimeout(client.reFetchObservableQueries, 0);
+            }}
+          >
+            refetch
+          </button>
         </div>
       </section>
       <section>

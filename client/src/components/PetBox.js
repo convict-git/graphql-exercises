@@ -1,6 +1,6 @@
 import React from "react";
 
-function PetBox({ pet }) {
+function PetBox({ pet, onEdit, onDelete }) {
   return (
     <div className="pet">
       <figure>
@@ -8,8 +8,8 @@ function PetBox({ pet }) {
       </figure>
       <div className="pet-name">{pet.name}</div>
       <div className="pet-type">{pet.type}</div>
-      <button>edit</button>
-      <button>delete</button>
+      <button onClick={() => onEdit(pet)}>edit</button>{" "}
+      <button onClick={() => onDelete(pet)}>delete</button>
     </div>
   );
 }

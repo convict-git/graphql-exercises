@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 const PETS_FIELDS = gql`
   fragment PetsField on Pet {
     id
+    __typename
     name
     type
     img
@@ -19,8 +20,8 @@ const GET_PETS = gql`
 `;
 
 const CREATE_PET = gql`
-  mutation CreatePet($newPet: NewPetInput!) {
-    addPet(input: $newPet) {
+  mutation CreatePet($inp: NewPetInput!) {
+    addPet(input: $inp) {
       ...PetsField
     }
   }
@@ -28,19 +29,21 @@ const CREATE_PET = gql`
 `;
 
 const EDIT_PET = gql`
-  mutation EditPet($pet: EditPetInput!) {
-    editPet(input: $pet) {
-      id
-      name
-      type
+  mutation EditPet($inp: EditPetInput!) {
+    editPet(input: $inp) {
+      ...PetsField
     }
   }
+  ${PETS_FIELDS}
 `;
 
 const DELETE_PET = gql`
-  mutation DeletePet($input: DeletePetInput!) {
-    deletePet(input: $input)
+  mutation DeletePet($inp: DeletePetInput!) {
+    deletePet(input: $inp) {
+      ...PetsField
+    }
   }
+  ${PETS_FIELDS}
 `;
 
 export { GET_PETS, CREATE_PET, EDIT_PET, DELETE_PET, PETS_FIELDS };

@@ -17,13 +17,13 @@ const useMutationCreatePet = () =>
 
 const useMutationEditPet = () =>
   useMutation(EDIT_PET, {
-    update(cache, { data: { editedPet } }) {
+    update(cache, { data: { editPet } }) {
       const { pets } = cache.readQuery({ query: GET_PETS });
 
       cache.writeQuery({
         query: GET_PETS,
         data: {
-          pets: pets.map((pet) => (editedPet.id === pet.id ? editedPet : pet)),
+          pets: pets.map((pet) => (editPet.id === pet.id ? editPet : pet)),
         },
       });
     },
@@ -31,15 +31,14 @@ const useMutationEditPet = () =>
 
 const useMutationDeletePet = () =>
   useMutation(DELETE_PET, {
-    update(cache, { data: { deletedPet, success } }) {
-      console.log(deletedPet, success);
+    update(cache, { data: { deletePet } }) {
       const { pets } = cache.readQuery({ query: GET_PETS });
 
       cache.writeQuery({
         query: GET_PETS,
         data: {
-          pets: success
-            ? pets.filter((pet) => deletedPet.id !== pet.id)
+          pets: deletePet
+            ? pets.filter((pet) => deletePet.id !== pet.id)
             : [...pets],
         },
       });
