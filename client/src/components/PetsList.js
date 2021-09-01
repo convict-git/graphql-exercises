@@ -1,7 +1,8 @@
 import React from "react";
 import { useModal, modalActionTypes } from "../context/modal";
 import PetBox from "./PetBox";
-import { useMutationDeletePet, useMutationEditPet } from "../gql/gqlOperations";
+import { useMutationEditPet } from "../gql/useMutationEditPet";
+import { useMutationDeletePet } from "../gql/useMutationDeletePet";
 
 export default function PetsList({ pets }) {
   const [, dispatchModal] = useModal();

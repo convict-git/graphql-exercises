@@ -1,12 +1,13 @@
 import React from "react";
+import { useApolloClient } from "@apollo/react-hooks";
+
+import Loader from "../components/Loader";
 import PetsList from "../components/PetsList";
 import PetModal from "../components/PetModal";
-import Loader from "../components/Loader";
 
 import { useModal, modalActionTypes } from "../context/modal";
-import { useMutationCreatePet, useQueryGetPets } from "../gql/gqlOperations";
-import { GET_PETS } from "../gql/gqlObjects";
-import { useApolloClient } from "@apollo/react-hooks";
+import { useQueryGetPets } from "../gql/useQueryGetPets";
+import { useMutationCreatePet } from "../gql/useMutationCreatePet";
 
 export default function Pets() {
   const client = useApolloClient();
