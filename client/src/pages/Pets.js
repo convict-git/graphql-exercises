@@ -1,25 +1,27 @@
 import React from "react";
+import { useApolloClient } from "@apollo/react-hooks";
+
+import Loader from "../components/Loader";
 import PetsList from "../components/PetsList";
 import PetModal from "../components/PetModal";
-import Loader from "../components/Loader";
 
 import { useModal, modalActionTypes } from "../context/modal";
-import { useMutationCreatePet, useQueryGetPets } from "../gql/gqlOperations";
-import { GET_PETS } from "../gql/gqlObjects";
-import { useApolloClient } from "@apollo/react-hooks";
+import { useQueryGetPets } from "../gql/useQueryGetPets";
+import { useMutationCreatePet } from "../gql/useMutationCreatePet";
 
 export default function Pets() {
   const client = useApolloClient();
-  const [modal, dispatchModal] = useModal();
-  const pets = useQueryGetPets();
 
-  const [createPet, newPet] = useMutationCreatePet();
+  const [modal, dispatchModal] = useModal();
+
+  const pets = useQueryGetPets();
+  const [createPet, errorCreatePet] = useMutationCreatePet();
 
   if (pets.loading) {
     return <Loader />;
   }
 
-  if (pets.error || newPet.error) {
+  if (pets.error || errorCreatePet) {
     return <div>Error!!!</div>;
   }
 
@@ -27,23 +29,11 @@ export default function Pets() {
     return <PetModal />;
   }
 
-  const onClickHandler = () => {
+  const handleClickNewPet = () => {
     dispatchModal({
       type: modalActionTypes.SET_NEW_MODE,
       onSubmit: (input) => {
-        createPet({
-          variables: { inp: { name: input.name, type: input.type } },
-          optimisticResponse: {
-            __typename: "Mutation",
-            addPet: {
-              id: toString(Math.floor(Math.random() * 100000)),
-              name: input.name,
-              type: input.type,
-              img: "https://via.placeholder.com/300",
-              __typename: "Pet",
-            },
-          },
-        });
+        createPet(input);
         dispatchModal({ type: modalActionTypes.CLOSE_MODAL });
       },
     });
@@ -57,11 +47,10 @@ export default function Pets() {
             <h1>Pets</h1>
           </div>
           <div className="col-xs-2">
-            <button onClick={onClickHandler}>new pet</button>{" "}
+            <button onClick={handleClickNewPet}>new pet</button>{" "}
           </div>
           <button
             onClick={() => {
-              console.log(client);
               window.setTimeout(client.reFetchObservableQueries, 0);
             }}
           >
