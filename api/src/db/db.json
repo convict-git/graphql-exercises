@@ -21,11 +21,25 @@
     {
       "id": "4wN77JeAERsnGGzzt-rZm",
       "createdAt": 1630387804608,
+<<<<<<< HEAD
       "name": "asdf",
+=======
+      "name": "googodoasdfasdf",
+>>>>>>> 30ccc03a1ea1a78d3a5910582a6ad0dbcdf6e0f9
       "type": "DOG",
       "user": "jBWMVGjm50l6LGwepDoty"
     },
     {
+<<<<<<< HEAD
+=======
+      "id": "uNFjU10nuecO_4Z9Ck0Ox",
+      "createdAt": 1630345071901,
+      "name": "bbhaju",
+      "type": "DOG",
+      "user": "jBWMVGjm50l6LGwepDoty"
+    },
+    {
+>>>>>>> 30ccc03a1ea1a78d3a5910582a6ad0dbcdf6e0f9
       "id": "p-QvQAa6RC5XBmyjXvOPh",
       "createdAt": 1630505960838,
       "name": "asdfsdf",

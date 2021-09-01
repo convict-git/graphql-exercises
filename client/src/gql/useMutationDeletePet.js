@@ -28,7 +28,6 @@ const useMutationDeletePet = () => {
       });
     },
   });
-
   return (pet) => {
     deletePet({
       variables: {
@@ -37,4 +36,5 @@ const useMutationDeletePet = () => {
     });
   };
 };
+
 export { useMutationDeletePet };

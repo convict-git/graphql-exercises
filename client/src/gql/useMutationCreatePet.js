@@ -24,7 +24,6 @@ const useMutationCreatePet = () => {
       });
     },
   });
-
   const createPet = (input) =>
     createPetHelper({
       variables: { inp: { name: input.name, type: input.type } },

@@ -26,7 +26,6 @@ const useMutationEditPet = () => {
       });
     },
   });
-
   return (input, pet) =>
     editPet({
       variables: {
